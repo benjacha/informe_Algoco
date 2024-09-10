@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <chrono> 
 #include <ctime> 
+#include <string>
 
 using namespace std;
 
@@ -13,22 +14,16 @@ int particion(vector<int>& arr, int izq, int der) {
     int pi = izq + rand() % (der - izq + 1);
     int pivot = arr[pi];
     swap(arr[der], arr[pi]);
-    int ent = 0; 
+    int ent = izq; 
     vector<int>  D;
     for (int i = izq; i < der; i++) {
         if (arr[i] < pivot) {
-            arr[izq+ent]= arr[i];
+            swap (arr[ent], arr[i]);
             ent++;
         }
-        else{
-            D.push_back(arr[i]);
-        }
     }
-    arr[izq+ent]=pivot;
-    for (int j = 0; j < D.size(); j++){
-        arr[izq+ent+1+j] = D[j];
-    }
-    return izq+ent;
+    swap(arr[der], arr[ent]);
+    return ent;
 }
 
 // Implementa el algoritmo QuickSort de manera recursiva. 
@@ -45,22 +40,24 @@ void quickSort(vector<int>& arr, int izq, int der) {
 void procesarArchivo(string nomarchivo) {
     ifstream archivo(nomarchivo);  
     vector<int> arr;  
-
     int num;
     while (archivo >> num) {
         arr.push_back(num);
     }
-    
     archivo.close(); 
-
     auto start = chrono::high_resolution_clock::now();
+    srand(time(0));
     quickSort(arr, 0, arr.size() - 1);
     auto end = chrono::high_resolution_clock::now();
-    chrono::duration<double, milli> duration = end - start;
-
+    chrono::duration<double, milli> duration = end - start; 
+    string salidaArchivo = nomarchivo.substr(0, nomarchivo.find_last_of('.')) + "_ordenado.txt";
+    ofstream archivoSalida(salidaArchivo);
+    for (int val : arr) {
+        archivoSalida << val << " ";
+    }
+    archivoSalida.close();
     cout << "El algoritmo se demoró " << duration.count() << " ms en ordenar " << nomarchivo << "." << endl;
 }
-
 int main() {
     // Procesar los 4 archivos caso1.txt, caso2.txt, caso3.txt y caso4.txt
     procesarArchivo("caso1.txt");
@@ -70,6 +67,5 @@ int main() {
     procesarArchivo("numeros.txt");
     return 0;
 }
-
 
 
