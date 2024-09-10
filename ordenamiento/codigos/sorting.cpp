@@ -4,15 +4,17 @@
 #include <fstream>
 #include <chrono> 
 
+using namespace std;
+
 //utiliza el sort implementado en la biblioteca <algorithm>
-void sorting(std::vector<int>& arr){
-    std::sort(arr.begin(), arr.end());
+void sorting(vector<int>& arr){
+    sort(arr.begin(), arr.end());
 }
 
 //lee los archivos de prueba recibiendo el nombre de uno abriendolo y mostrando en pantalla el tiempo de ejecución
-void procesarArchivo(const std::string& archivo) {
-    std::ifstream archivo(archivo);  
-    std::vector<int> arr;  
+void procesarArchivo(string nomarchivo) {
+    ifstream archivo(nomarchivo);  
+    vector<int> arr;  
 
     int num;
     while (archivo >> num) {
@@ -20,12 +22,12 @@ void procesarArchivo(const std::string& archivo) {
     }
     archivo.close(); 
 
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = chrono::high_resolution_clock::now();
     sorting(arr);
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> duration = end - start;
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double, milli> duration = end - start;
 
-    std::cout << "El algoritmo se demoró " << duration.count() << " ms en ordenar " << archivo << "." << std::endl;
+    cout << "El algoritmo se demoró " << duration.count() << " ms en ordenar " << nomarchivo << "." << endl;
 }
 
 int main() {
