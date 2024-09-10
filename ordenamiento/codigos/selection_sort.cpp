@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <chrono> 
+#include <string>
 
 using namespace std;
 
@@ -24,18 +25,20 @@ void selectionSort(vector<int>& arr) {
 void procesarArchivo(string nomarchivo) {
     ifstream archivo(nomarchivo);  
     vector<int> arr;  
-
     int num;
     while (archivo >> num) {
         arr.push_back(num);
     }
     archivo.close(); 
-
     auto start = chrono::high_resolution_clock::now();
     selectionSort(arr);
     auto end = chrono::high_resolution_clock::now();
-    chrono::duration<double, milli> duration = end - start;
-
+    chrono::duration<double, milli> duration = end - start; 
+    string salidaArchivo = nomarchivo.substr(0, nomarchivo.find_last_of('.')) + "_ordenado.txt";
+    ofstream archivoSalida(salidaArchivo);
+    for (int val : arr) {
+        archivoSalida << val << " ";
+    }
     cout << "El algoritmo se demoró " << duration.count() << " ms en ordenar " << nomarchivo << "." << endl;
 }
 int main() {
@@ -46,5 +49,3 @@ int main() {
     procesarArchivo("numeros.txt");
     return 0;
 }
-
-
