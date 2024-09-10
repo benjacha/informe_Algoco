@@ -5,14 +5,16 @@
 #include <chrono> 
 #include <ctime> 
 
+using namespace std;
+
 // Esta función elige un elemento al azar como pivote y reordena los elementos
 // de tal forma que todos los menores al pivote queden a su izquierda y los mayores a su derecha
-int particion(std::vector<int>& arr, int izq, int der) {
+int particion(vector<int>& arr, int izq, int der) {
     int pi = izq + rand() % (der - izq + 1);
     int pivot = arr[pi];
-    std::swap(arr[der], arr[pi]);
+    swap(arr[der], arr[pi]);
     int ent = 0; 
-    std::vector<int>  D;
+    vector<int>  D;
     for (int i = izq; i < der; i++) {
         if (arr[i] < pivot) {
             arr[izq+ent]= arr[i];
@@ -31,7 +33,7 @@ int particion(std::vector<int>& arr, int izq, int der) {
 
 // Implementa el algoritmo QuickSort de manera recursiva. 
 // Divide el vector en dos subvectores utilizando el pivote y luego llama a sí misma para ordenar esas dos subpartes.
-void quickSort(std::vector<int>& arr, int izq, int der) {
+void quickSort(vector<int>& arr, int izq, int der) {
     if (izq < der) {
         int pi = particion(arr, izq, der);
         quickSort(arr, izq, pi - 1);  
@@ -40,9 +42,9 @@ void quickSort(std::vector<int>& arr, int izq, int der) {
 }
 
 //lee los archivos de prueba recibiendo el nombre de uno abriendolo y mostrando en pantalla el tiempo de ejecución
-void procesarArchivo(const std::string& archivo) {
-    std::ifstream archivo(archivo);  
-    std::vector<int> arr;  
+void procesarArchivo(string nomarchivo) {
+    ifstream archivo(nomarchivo);  
+    vector<int> arr;  
 
     int num;
     while (archivo >> num) {
@@ -51,12 +53,12 @@ void procesarArchivo(const std::string& archivo) {
     
     archivo.close(); 
 
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = chrono::high_resolution_clock::now();
     quickSort(arr, 0, arr.size() - 1);
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> duration = end - start;
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double, milli> duration = end - start;
 
-    std::cout << "El algoritmo se demoró " << duration.count() << " ms en ordenar " << archivo << "." << std::endl;
+    cout << "El algoritmo se demoró " << duration.count() << " ms en ordenar " << nomarchivo << "." << endl;
 }
 
 int main() {
@@ -68,3 +70,6 @@ int main() {
     procesarArchivo("numeros.txt");
     return 0;
 }
+
+
+
