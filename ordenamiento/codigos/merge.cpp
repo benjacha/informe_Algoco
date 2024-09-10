@@ -2,6 +2,7 @@
 #include <vector>
 #include <fstream>
 #include <chrono> 
+#include <string>
 
 using namespace std;
 
@@ -62,21 +63,23 @@ void mergeSort(vector<int>& arr, int izq, int der) {
 void procesarArchivo(string nomarchivo) {
     ifstream archivo(nomarchivo);  
     vector<int> arr;  
-
     int num;
     while (archivo >> num) {
         arr.push_back(num);
     }
     archivo.close(); 
-
     auto start = chrono::high_resolution_clock::now();
     mergeSort(arr, 0, arr.size() - 1);
     auto end = chrono::high_resolution_clock::now();
-    chrono::duration<double, milli> duration = end - start;
-
+    chrono::duration<double, milli> duration = end - start; 
+    string salidaArchivo = nomarchivo.substr(0, nomarchivo.find_last_of('.')) + "_ordenado.txt";
+    ofstream archivoSalida(salidaArchivo);
+    for (int val : arr) {
+        archivoSalida << val << " ";
+    }
+    archivoSalida.close();
     cout << "El algoritmo se demoró " << duration.count() << " ms en ordenar " << nomarchivo << "." << endl;
 }
-
 int main() {
     // Procesar los 4 archivos caso1.txt, caso2.txt, caso3.txt y caso4.txt
     procesarArchivo("caso1.txt");
@@ -86,5 +89,6 @@ int main() {
     procesarArchivo("numeros.txt");
     return 0;
 }
+
 
 
