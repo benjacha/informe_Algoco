@@ -7,7 +7,7 @@ using namespace std;
 
 // Este algoritmo encuentra el elemento más pequeño en el vector no ordenado y 
 // lo intercambia con el primer elemento del vector no ordenado.
-void selectionSort(std::vector<int>& arr) {
+void selectionSort(vector<int>& arr) {
     int n = arr.size();
     for (int i = 0; i < n - 1; i++) {
         int min = i;
@@ -16,14 +16,14 @@ void selectionSort(std::vector<int>& arr) {
                 min = j;
             }
         }
-        std::swap(arr[i], arr[min]);
+        swap(arr[i], arr[min]);
     }
 }
 
 //lee los archivos de prueba recibiendo el nombre de uno abriendolo y mostrando en pantalla el tiempo de ejecución
-void procesarArchivo(const std::string& archivo) {
-    std::ifstream archivo(archivo);  
-    std::vector<int> arr;  
+void procesarArchivo(string nomarchivo) {
+    ifstream archivo(nomarchivo);  
+    vector<int> arr;  
 
     int num;
     while (archivo >> num) {
@@ -31,12 +31,12 @@ void procesarArchivo(const std::string& archivo) {
     }
     archivo.close(); 
 
-    auto start = std::chrono::high_resolution_clock::now();
+    auto start = chrono::high_resolution_clock::now();
     selectionSort(arr);
-    auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> duration = end - start;
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double, milli> duration = end - start;
 
-    std::cout << "El algoritmo se demoró " << duration.count() << " ms en ordenar " << archivo << "." << std::endl;
+    cout << "El algoritmo se demoró " << duration.count() << " ms en ordenar " << nomarchivo << "." << endl;
 }
 int main() {
     procesarArchivo("caso1.txt");
@@ -46,4 +46,5 @@ int main() {
     procesarArchivo("numeros.txt");
     return 0;
 }
+
 
